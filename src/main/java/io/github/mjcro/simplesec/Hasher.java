@@ -13,7 +13,7 @@ import java.util.Locale;
  * Describes algorithms, that are able to produce hash value.
  */
 public interface Hasher {
-    int STREAM_BUFFER_LENGTH = 1024;
+    int STREAM_BUFFER_LENGTH = 256;
 
     /**
      * Matches two given hashes and returns true if they
@@ -24,7 +24,7 @@ public interface Hasher {
      * @param b Second hash.
      * @return True if two hashes seems to be equal.
      */
-    static boolean hashEquals(final String a, final String b) {
+    static boolean hashEquals(String a, String b) {
         return a != null && b != null && a.trim().equalsIgnoreCase(b.trim());
     }
 
@@ -45,7 +45,7 @@ public interface Hasher {
      * @param data Set of  bytes arrays
      * @return Hash of concatenation bytes
      */
-    default byte[] hash(final byte[]... data) {
+    default byte[] hash(byte[]... data) {
         if (data == null || data.length == 0) {
             throw new IllegalArgumentException("Empty data to hash");
         }
@@ -84,7 +84,7 @@ public interface Hasher {
      * @param data Source data
      * @return Hash
      */
-    default byte[] hash(final String data) {
+    default byte[] hash(String data) {
         if (data == null) {
             return hash();
         }
@@ -98,7 +98,7 @@ public interface Hasher {
      * @param data Data to hash
      * @return Hash
      */
-    default byte[] hash(final Object... data) {
+    default byte[] hash(Object... data) {
         if (data == null || data.length == 0) {
             return hash();
         }
@@ -120,7 +120,7 @@ public interface Hasher {
      * @param args    String.format arguments.
      * @return Hash
      */
-    default byte[] hashFormat(final String pattern, final Object... args) {
+    default byte[] hashFormat(String pattern, Object... args) {
         return hash(String.format(Locale.ROOT, pattern, args));
     }
 
@@ -140,7 +140,17 @@ public interface Hasher {
      * @param data Source data
      * @return Hash in hexadecimal representation
      */
-    default String hashHex(final String data) {
+    default String hashHex(String data) {
+        return HexUtil.encode(hash(data));
+    }
+
+    /**
+     * Calculates hash of provided objects - they will be concatenated.
+     *
+     * @param data Data to hash
+     * @return Hash
+     */
+    default String hashHex(byte[]... data) {
         return HexUtil.encode(hash(data));
     }
 
@@ -150,7 +160,7 @@ public interface Hasher {
      * @param data Data to hash
      * @return Hash in hexadecimal representation
      */
-    default String hashHex(final Object... data) {
+    default String hashHex(Object... data) {
         return HexUtil.encode(hash(data));
     }
 
@@ -161,7 +171,7 @@ public interface Hasher {
      * @param args    String.format arguments.
      * @return Hash in hexadecimal representation
      */
-    default String hashFormatHex(final String pattern, final Object... args) {
+    default String hashFormatHex(String pattern, Object... args) {
         return HexUtil.encode(hashFormat(pattern, args));
     }
 
@@ -215,7 +225,7 @@ public interface Hasher {
      * @param data Data to hash.
      * @return True if hashes matches.
      */
-    default boolean verify(final String hash, final byte[] data) {
+    default boolean verify(String hash, byte[] data) {
         return hashEquals(hash, hashHex(data));
     }
 
@@ -227,7 +237,7 @@ public interface Hasher {
      * @param data Data to hash.
      * @return True if hashes matches.
      */
-    default boolean verify(final String hash, final String data) {
+    default boolean verify(String hash, String data) {
         return hashEquals(hash, hashHex(data));
     }
 
@@ -239,7 +249,7 @@ public interface Hasher {
      * @param data Data to hash.
      * @return True if hashes matches.
      */
-    default boolean verify(final String hash, final Object... data) {
+    default boolean verify(String hash, Object... data) {
         return hashEquals(hash, hashHex(data));
     }
 
@@ -251,7 +261,7 @@ public interface Hasher {
      * @param args    String.format arguments.
      * @return True if hashes matches.
      */
-    default boolean verifyFormatHex(final String hash, final String pattern, final Object... args) {
+    default boolean verifyFormatHex(String hash, String pattern, Object... args) {
         return hashEquals(hash, HexUtil.encode(hashFormat(pattern, args)));
     }
 }
