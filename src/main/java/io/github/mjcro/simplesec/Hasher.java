@@ -41,6 +41,11 @@ public interface Hasher {
      */
     byte[] hash(byte[] data);
 
+
+
+    /* ------------- Helpers returning byte arrays ------------- */
+
+
     /**
      * @param data Set of  bytes arrays
      * @return Hash of concatenation bytes
@@ -125,57 +130,6 @@ public interface Hasher {
     }
 
     /**
-     * Calculates hash over provided data.
-     *
-     * @param data Data to hash
-     * @return Hash in hexadecimal representation
-     */
-    default String hashHex(byte[] data) {
-        return HexUtil.encode(hash(data));
-    }
-
-    /**
-     * Calculates provided string hash.
-     *
-     * @param data Source data
-     * @return Hash in hexadecimal representation
-     */
-    default String hashHex(String data) {
-        return HexUtil.encode(hash(data));
-    }
-
-    /**
-     * Calculates hash of provided objects - they will be concatenated.
-     *
-     * @param data Data to hash
-     * @return Hash
-     */
-    default String hashHex(byte[]... data) {
-        return HexUtil.encode(hash(data));
-    }
-
-    /**
-     * Calculates hash of provided objects - they will be concatenated.
-     *
-     * @param data Data to hash
-     * @return Hash in hexadecimal representation
-     */
-    default String hashHex(Object... data) {
-        return HexUtil.encode(hash(data));
-    }
-
-    /**
-     * Performs String.format over given values and then applies hash.
-     *
-     * @param pattern String.format pattern.
-     * @param args    String.format arguments.
-     * @return Hash in hexadecimal representation
-     */
-    default String hashFormatHex(String pattern, Object... args) {
-        return HexUtil.encode(hashFormat(pattern, args));
-    }
-
-    /**
      * Calculates hash of {@link InputStream} data.
      *
      * @param is Source input stream.
@@ -195,27 +149,158 @@ public interface Hasher {
         return buffer.toByteArray();
     }
 
+
+
+    /* ------------- Helpers returning hexadecimal ------------- */
+
+
     /**
      * Calculates hash over provided data.
      *
      * @param data Data to hash
-     * @return Hash in hexadecimal representation
+     * @return Hash in hexadecimal representation, lowercase.
+     */
+    default String hashHex(byte[] data) {
+        return HexUtil.encode(hash(data));
+    }
+
+    /**
+     * Calculates hash over provided data.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashHexUpper(byte[] data) {
+        return hashHex(data).toUpperCase(Locale.ROOT);
+    }
+
+    /**
+     * Calculates provided string hash.
+     *
+     * @param data Source data
+     * @return Hash in hexadecimal representation, lowercase.
+     */
+    default String hashHex(String data) {
+        return HexUtil.encode(hash(data));
+    }
+
+    /**
+     * Calculates provided string hash.
+     *
+     * @param data Source data
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashHexUpper(String data) {
+        return hashHex(data).toUpperCase(Locale.ROOT);
+    }
+
+    /**
+     * Calculates hash of provided objects - they will be concatenated.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, lowercase.
+     */
+    default String hashHex(byte[]... data) {
+        return HexUtil.encode(hash(data));
+    }
+
+    /**
+     * Calculates hash of provided objects - they will be concatenated.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashHexUpper(byte[]... data) {
+        return hashHex(data).toUpperCase(Locale.ROOT);
+    }
+
+    /**
+     * Calculates hash of provided objects - they will be concatenated.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, lowercase.
+     */
+    default String hashHex(Object... data) {
+        return HexUtil.encode(hash(data));
+    }
+
+    /**
+     * Calculates hash of provided objects - they will be concatenated.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashHexUpper(Object... data) {
+        return hashHex(data).toUpperCase(Locale.ROOT);
+    }
+
+    /**
+     * Performs String.format over given values and then applies hash.
+     *
+     * @param pattern String.format pattern.
+     * @param args    String.format arguments.
+     * @return Hash in hexadecimal representation, lowercase.
+     */
+    default String hashFormatHex(String pattern, Object... args) {
+        return HexUtil.encode(hashFormat(pattern, args));
+    }
+
+    /**
+     * Performs String.format over given values and then applies hash.
+     *
+     * @param pattern String.format pattern.
+     * @param args    String.format arguments.
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashFormatHexUpper(String pattern, Object... args) {
+        return hashFormatHex(pattern, args).toUpperCase(Locale.ROOT);
+    }
+
+    /**
+     * Calculates hash over provided data.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, lowercase.
      */
     default String hashHex(InputStream data) throws IOException {
         return HexUtil.encode(hash(data));
     }
 
     /**
+     * Calculates hash over provided data.
+     *
+     * @param data Data to hash
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashHexUpper(InputStream data) throws IOException {
+        return hashHex(data).toUpperCase(Locale.ROOT);
+    }
+
+    /**
      * Calculates hash over provided file
      *
      * @param file File to hash
-     * @return Hash in hexadecimal representation
+     * @return Hash in hexadecimal representation, lowercase.
      */
     default String hashHex(File file) throws IOException {
         try (FileInputStream fis = new FileInputStream(file)) {
             return HexUtil.encode(hash(fis));
         }
     }
+
+    /**
+     * Calculates hash over provided file
+     *
+     * @param file File to hash
+     * @return Hash in hexadecimal representation, uppercase.
+     */
+    default String hashHexUpper(File file) throws IOException {
+        return hashHex(file).toUpperCase(Locale.ROOT);
+    }
+
+
+    /* ------------- Verification helpers ------------- */
+
 
     /**
      * Creates hash for given data and then verifies that

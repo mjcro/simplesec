@@ -20,10 +20,10 @@ public class MD5Test {
     @Test
     public void testHashing() {
         Assert.assertEquals(MD5.INSTANCE.hashHex("Hello, world!"), "6cd3556deb0da54bca060b4c39479839");
-        Assert.assertEquals(MD5.INSTANCE.hashHex("Hello,", " world!"), "6cd3556deb0da54bca060b4c39479839");
-        Assert.assertEquals(MD5.INSTANCE.hashHex("Hello,".getBytes(StandardCharsets.UTF_8), " world!".getBytes(StandardCharsets.UTF_8)), "6cd3556deb0da54bca060b4c39479839");
+        Assert.assertEquals(MD5.INSTANCE.hashHexUpper("Hello,", " world!"), "6CD3556DEB0DA54BCA060B4C39479839");
+        Assert.assertEquals(MD5.INSTANCE.hashHexUpper("Hello,".getBytes(StandardCharsets.UTF_8), " world!".getBytes(StandardCharsets.UTF_8)), "6CD3556DEB0DA54BCA060B4C39479839");
         Assert.assertEquals(MD5.INSTANCE.hashHex("Foo".getBytes(StandardCharsets.UTF_8)), "1356c67d7ad1638d816bfb822dd2c25d");
-        Assert.assertEquals(MD5.INSTANCE.hashFormatHex("%s, %s!", "Hello", "world"), "6cd3556deb0da54bca060b4c39479839");
+        Assert.assertEquals(MD5.INSTANCE.hashFormatHexUpper("%s, %s!", "Hello", "world"), "6CD3556DEB0DA54BCA060B4C39479839");
 
         Assert.assertEquals(HexUtil.encode(MD5.INSTANCE.hash()), "00000000000000000000000000000000");
     }
