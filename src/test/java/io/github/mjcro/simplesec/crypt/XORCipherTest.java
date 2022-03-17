@@ -22,7 +22,7 @@ public class XORCipherTest {
     @Test(dependsOnMethods = "testXor")
     public void testEncrypt() {
         Cipher xor = new XORCipher("Some secret");
-        Cryptogram data = xor.encryptString("Some data");
+        Cryptogram data = xor.encryptPlainString("Some data");
 
         Assert.assertEquals(data.getIv().length, 0);
         Assert.assertEquals(data.getDataHex(), "000000000017041713");

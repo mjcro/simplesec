@@ -5,7 +5,7 @@ import java.util.Base64;
 
 public interface Cipher {
     /**
-     * Encrypts provided binary data
+     * Encrypts provided binary data.
      *
      * @param data Data to encrypt.
      * @return Encrypted cryptogram.
@@ -13,7 +13,10 @@ public interface Cipher {
     Cryptogram encrypt(byte[] data);
 
     /**
-     * Decrypts provided binary cryptogram
+     * Decrypts provided binary cryptogram.
+     *
+     * @param data Cryptogram to decrypt.
+     * @return Decrypted data.
      */
     byte[] decrypt(Cryptogram data);
 
@@ -23,7 +26,7 @@ public interface Cipher {
      * @param s Data to encrypt.
      * @return Encrypted cryptogram.
      */
-    default Cryptogram encryptString(String s) {
+    default Cryptogram encryptPlainString(String s) {
         return encrypt(s.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -33,7 +36,7 @@ public interface Cipher {
      * @param s Data to encrypt.
      * @return Encrypted cryptogram.
      */
-    default Cryptogram encryptHex(String s) {
+    default Cryptogram encryptHexString(String s) {
         return encrypt(HexUtil.decode(s));
     }
 
@@ -43,7 +46,17 @@ public interface Cipher {
      * @param s Data to encrypt.
      * @return Encrypted cryptogram.
      */
-    default Cryptogram encryptBase64(String s) {
+    default Cryptogram encryptBase64String(String s) {
         return encrypt(Base64.getDecoder().decode(s));
+    }
+
+    /**
+     * Decrypts provided binary cryptogram.
+     *
+     * @param data Cryptogram to decrypt.
+     * @return Decrypted data.
+     */
+    default String decryptToString(Cryptogram data) {
+        return new String(decrypt(data), StandardCharsets.UTF_8);
     }
 }
