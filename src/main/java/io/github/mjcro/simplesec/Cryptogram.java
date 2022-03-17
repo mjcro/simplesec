@@ -27,7 +27,7 @@ public interface Cryptogram {
      * @param ivHEX   HEX iv
      * @return Cryptogram instance.
      */
-    static Cryptogram fromHex(String dataHEX, final String ivHEX) {
+    static Cryptogram fromHex(String dataHEX, String ivHEX) {
         return create(HexUtil.decode(dataHEX), HexUtil.decode(ivHEX));
     }
 

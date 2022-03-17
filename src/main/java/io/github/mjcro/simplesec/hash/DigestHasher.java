@@ -11,7 +11,7 @@ class DigestHasher implements Hasher {
     private final int size;
     private final String digest;
 
-    DigestHasher(final int size, final String digest) {
+    DigestHasher(int size, String digest) {
         this.size = size;
         this.digest = digest;
 

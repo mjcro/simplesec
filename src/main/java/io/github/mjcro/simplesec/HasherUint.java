@@ -19,7 +19,7 @@ public interface HasherUint extends Hasher {
      * @param data String source data
      * @return Hash
      */
-    default long checksum(final String data) {
+    default long checksum(String data) {
         if (data == null) {
             return 0L;
         }
@@ -33,7 +33,7 @@ public interface HasherUint extends Hasher {
      * @param data Data to hash
      * @return Hash
      */
-    default long checksum(final Object... data) {
+    default long checksum(Object... data) {
         if (data == null || data.length == 0) {
             return 0L;
         }
@@ -49,7 +49,7 @@ public interface HasherUint extends Hasher {
     }
 
     @Override
-    default byte[] hash(final byte[] data) {
+    default byte[] hash(byte[] data) {
         long value = checksum(data);
         return new byte[]{
                 (byte) (value >>> 24),
