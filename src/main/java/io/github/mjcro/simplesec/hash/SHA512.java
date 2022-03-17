@@ -1,4 +1,4 @@
-package io.github.mjcro.simplesec.hashing;
+package io.github.mjcro.simplesec.hash;
 
 /**
  * SHA512 implementation.

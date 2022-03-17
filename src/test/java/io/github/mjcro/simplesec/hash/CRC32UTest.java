@@ -1,4 +1,4 @@
-package io.github.mjcro.simplesec.hashing;
+package io.github.mjcro.simplesec.hash;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;

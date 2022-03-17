@@ -1,4 +1,4 @@
-package io.github.mjcro.simplesec.hashing;
+package io.github.mjcro.simplesec.hash;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -37,5 +37,6 @@ public class DigestHasherTest {
         Assert.assertEquals(hasher.size(), size);
         Assert.assertEquals(hasher.toString(), name);
         Assert.assertEquals(hasher.hashHex("Hello, world!"), expected);
+        Assert.assertEquals(hasher.hash("foo").length, hasher.size());
     }
 }
