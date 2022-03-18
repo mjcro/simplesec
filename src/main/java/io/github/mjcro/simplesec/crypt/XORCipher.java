@@ -9,7 +9,33 @@ import java.nio.charset.StandardCharsets;
  * Simple naïve XOR-based cipher.
  */
 public class XORCipher implements Cipher {
-    private final byte[] secret;
+    protected final byte[] secret;
+
+    /**
+     * Performs XOR operation over given data using secret.
+     * If data length greater that secret length, secret
+     * will be re-read from beginning.
+     *
+     * @param data   Data to encrypt.
+     * @param secret Secret key.
+     * @return Encrypted data.
+     */
+    public static byte[] XOR(byte[] data, byte[] secret) {
+        if (secret == null || secret.length == 0) {
+            throw new IllegalArgumentException("Empty secret");
+        }
+        if (data == null || data.length == 0) {
+            return new byte[0];
+        }
+
+        int len = data.length;
+        int slen = secret.length;
+        byte[] result = new byte[len];
+        for (int i = 0; i < len; i++) {
+            result[i] = (byte) (data[i] ^ secret[i % slen]);
+        }
+        return result;
+    }
 
     /**
      * Constructs new XOR cipher using given secret
@@ -36,31 +62,21 @@ public class XORCipher implements Cipher {
 
     @Override
     public Cryptogram encrypt(byte[] data) {
-        return Cryptogram.create(xor(data), new byte[0]);
+        return Cryptogram.create(xorSecret(data), new byte[0]);
     }
 
     @Override
     public byte[] decrypt(Cryptogram data) {
-        return xor(data.getData());
+        return xorSecret(data.getData());
     }
 
     /**
-     * Performs XOR operation over given bytes and secret.
+     * Performs XOR operation over given bytes and internal secret.
      *
      * @param bytes Given bytes.
      * @return Resulting bytes after XOR.
      */
-    public byte[] xor(byte[] bytes) {
-        if (bytes == null || bytes.length == 0) {
-            return new byte[0];
-        }
-
-        int len = bytes.length;
-        int slen = secret.length;
-        byte[] result = new byte[len];
-        for (int i = 0; i < len; i++) {
-            result[i] = (byte) (bytes[i] ^ secret[i % slen]);
-        }
-        return result;
+    public byte[] xorSecret(byte[] bytes) {
+        return XOR(bytes, this.secret);
     }
 }

@@ -12,8 +12,8 @@ public class XORCipherTest {
     public void testXor() {
         XORCipher xor = new XORCipher("SeCReT");
         byte[] origin = "Foo".getBytes(StandardCharsets.UTF_8);
-        byte[] xor1 = xor.xor(origin);
-        byte[] xor2 = xor.xor(xor1);
+        byte[] xor1 = xor.xorSecret(origin);
+        byte[] xor2 = xor.xorSecret(xor1);
 
         Assert.assertEquals(xor2, origin);
         Assert.assertNotEquals(xor1, xor2);
